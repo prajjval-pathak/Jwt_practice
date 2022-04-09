@@ -8,9 +8,9 @@ export const RegisterValidation=data=>{
   return schema.validate(data)
 }
 export const LoginValidation=(data)=>{
-  const schema={
+  const schema=Joi.object({
     email:Joi.string().min(6).required().email(),
     password:Joi.string().min(6).required()
-  }
-  Joi.validate(data,schema)
+  })
+  return schema.validate(data)
 }
