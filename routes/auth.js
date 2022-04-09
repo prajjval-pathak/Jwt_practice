@@ -6,7 +6,6 @@ router.post('/register',async (req,res)=>{
   const {error}=RegisterValidation(req.body)
   if (error)
   {res.status(400).send(error.details[0].message)}
-  else{
   const user=new User({
     name:req.body.name,
     email:req.body.email,
@@ -19,7 +18,7 @@ router.post('/register',async (req,res)=>{
   catch(err){
     res.send(err)
   }}
-})
+)
 // router.get('/register',(req,res)=>{
 //   res.send("hello")
 // })
