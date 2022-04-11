@@ -2,6 +2,8 @@ import express from "express";
 import User from "../models/User.js";
 import bcryt from "bcrypt"
 import { LoginValidation, RegisterValidation } from "../validation.js";
+import jsonwebtoken from "jsonwebtoken";
+const {jsonwebtoken: jwt} = jsonwebtoken;
 const router=express()
 router.post('/register',async (req,res)=>{
   const {error}=RegisterValidation(req.body)
@@ -33,7 +35,9 @@ router.post('/login',async (req,res)=>{
   if(!user){return res.status(400).send("email is not in daabase")}
   const validPass=await bcryt.compare(req.body.password,user.password)
   if(!validPass){return res.status(400).send("password is incorrect")}
-  res.send("Logged in")
+  const token=jsonwebtoken.sign({id:user._id},process.env.SECRET,{expiresIn:"10h"})
+  res.header("Token",token).send(token)
+
 })
 
 // router.get('/register',(req,res)=>{
